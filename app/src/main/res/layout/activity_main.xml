@@ -22,4 +22,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_content"
         android:text="DialogFragment"/>
+
+    <Button
+        android:id="@+id/addSQLite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogBtn"
+        android:text="addSQLite"/>
+
+    <Button
+        android:id="@+id/querySQLite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addSQLite"
+        android:text="querySQLite"/>
 </RelativeLayout>

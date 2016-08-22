@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
  */
 public final class UserDao
 {
-    public static final String AUTHORITY = "com.livvy.provider.UserDao";
+    public static final String AUTHORITY = "com.livvy.provider.userdao";
 
     public static final class User implements BaseColumns
     {
@@ -20,7 +20,7 @@ public final class UserDao
         /**
          * The table name offered by this provider
          */
-        public static final String TABLE_NAME = "notes";
+        public static final String TABLE_NAME = "user";
 
         /*
          * URI definitions
@@ -38,12 +38,12 @@ public final class UserDao
         /**
          * Path part for the Notes URI
          */
-        private static final String PATH_USER = "/notes";
+        private static final String PATH_USER = "/users";
 
         /**
          * Path part for the Note ID URI
          */
-        private static final String PATH_USER_ID = "/notes/";
+        private static final String PATH_USER_ID = "/users/";
 
         /**
          * 0-relative position of a note ID segment in the path part of a note ID URI
@@ -61,11 +61,17 @@ public final class UserDao
         public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.livvy.user";
 
         /**
+         * The content URI base for a single note. Callers must
+         * append a numeric note id to this Uri to retrieve a note
+         */
+        public static final Uri CONTENT_ID_URI_BASE
+                = Uri.parse(SCHEME + AUTHORITY + PATH_USER_ID);
+
+        /**
          * The MIME type of a {@link #CONTENT_URI} sub-directory of a single note.
          */
         public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.livvy.user";
 
-        public int id;
 
         public static final String COLUMN_NAME_LOGINNAME = "loginname";
 

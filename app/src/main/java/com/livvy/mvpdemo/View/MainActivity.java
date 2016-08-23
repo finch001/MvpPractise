@@ -1,9 +1,6 @@
 package com.livvy.mvpdemo.View;
 
 import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,22 +9,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.livvy.mvpdemo.Model.User.Db.UserDao;
+import com.livvy.mvpdemo.Model.User.Model.User;
 import com.livvy.mvpdemo.Presenter.MainPresenter;
 import com.livvy.mvpdemo.R;
 import com.livvy.mvpdemo.View.Fragment.LoginDialogFragment;
 import com.livvy.mvpdemo.View.Interface.ILogin;
 import com.livvy.mvpdemo.View.Interface.ImainView;
 
-public class MainActivity extends AppCompatActivity implements ImainView, ILogin {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements ImainView, ILogin
+{
     private MainPresenter mainPresenter;
     private TextView tvContent;
     private Button dilogBtn;
     private Button addSQLite;
     private ContentResolver contentResolver;
     private Button querySQLite;
+    private UserDao userDao;
+    private List<User> users;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         contentResolver = this.getContentResolver();
@@ -36,78 +40,79 @@ public class MainActivity extends AppCompatActivity implements ImainView, ILogin
         loadData();
     }
 
-    public void initView() {
-        tvContent = (TextView) findViewById(R.id.tv_content);
-        dilogBtn = (Button) findViewById(R.id.dialogBtn);
-        addSQLite = (Button) findViewById(R.id.addSQLite);
-        querySQLite = (Button) findViewById(R.id.querySQLite);
+    public void initView()
+    {
+        tvContent = (TextView)findViewById(R.id.tv_content);
+        dilogBtn = (Button)findViewById(R.id.dialogBtn);
+        addSQLite = (Button)findViewById(R.id.addSQLite);
+        querySQLite = (Button)findViewById(R.id.querySQLite);
     }
 
-    public void initListener() {
-        dilogBtn.setOnClickListener(new View.OnClickListener() {
+    public void initListener()
+    {
+        dilogBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 showLoginFragment();
             }
         });
 
-        addSQLite.setOnClickListener(new View.OnClickListener() {
+        addSQLite.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                ContentValues value = new ContentValues();
-                value.put(UserDao.User.COLUMN_NAME_SHOWNAME, "finch");
-                value.put(UserDao.User.COLUMN_NAME_ISMANUALLOGOUT, 0);
-                value.put(UserDao.User.COLUMN_NAME_LOGINNAME, "zhengyan");
-                value.put(UserDao.User.COLUMN_NAME_LASTLOGINTIME, System.currentTimeMillis());
-                value.put(UserDao.User.COLUMN_NAME_PASSWORD, "zy1992928");
-                Uri newUri = contentResolver.insert(UserDao.User.CONTENT_URI, value);
-                Toast.makeText(MainActivity.this, "" + newUri, Toast.LENGTH_SHORT).show();
+            public void onClick(View v)
+            {
+                User user = new User("finch", "wukong", "zy1992928", "" + System.currentTimeMillis(), false);
+                userDao.insertUser(user);
+                Toast.makeText(MainActivity.this, "insert successFul", Toast.LENGTH_SHORT).show();
             }
         });
 
-        querySQLite.setOnClickListener(new View.OnClickListener() {
+        querySQLite.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                Cursor cursor = contentResolver.query(UserDao.User.CONTENT_URI, new String[]{UserDao.User.COLUMN_NAME_LOGINNAME, UserDao.User.COLUMN_NAME_SHOWNAME, UserDao.User.COLUMN_NAME_PASSWORD}, null, null, null);
-
-                if (cursor == null) {
-                    Toast.makeText(MainActivity.this, "datasqlite is empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                String msg = "";
-                if (cursor.moveToFirst()) {
-                    do {
-                        msg += "ShowName: " + cursor.getString(cursor.getColumnIndex(UserDao.User.COLUMN_NAME_SHOWNAME)) + ",";
-                        msg += "loginName: " + cursor.getString(cursor.getColumnIndex(UserDao.User.COLUMN_NAME_LOGINNAME)) + ",";
-                        msg += "password: " + cursor.getInt(cursor.getColumnIndex(UserDao.User.COLUMN_NAME_PASSWORD)) + ",";
-                    } while (cursor.moveToNext());
+            public void onClick(View v)
+            {
+                users = userDao.getAllUser();
+                StringBuilder sb = new StringBuilder();
+                for (User user : users)
+                {
+                    sb.append(user.toString() + "\n");
                 }
 
-                Toast.makeText(MainActivity.this, "" + msg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, sb.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private void showLoginFragment() {
+    private void showLoginFragment()
+    {
         LoginDialogFragment loginDialog = new LoginDialogFragment();
         loginDialog.show(getSupportFragmentManager(), "loginDialog");
     }
 
-    public void loadData() {
+    public void loadData()
+    {
         mainPresenter = new MainPresenter().Test();
         mainPresenter.addTaskListener(this);
         mainPresenter.getString();
+
+        userDao = new UserDao(this);
     }
 
     @Override
-    public void getString(String content) {
+    public void getString(String content)
+    {
         tvContent.setText(content);
     }
 
 
     @Override
-    public void getUserInfo(String userName, String password) {
+    public void getUserInfo(String userName, String password)
+    {
         Toast.makeText(MainActivity.this, userName + "\n" + password, Toast.LENGTH_SHORT).show();
     }
 }

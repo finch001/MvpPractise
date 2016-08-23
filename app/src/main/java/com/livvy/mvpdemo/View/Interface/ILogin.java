@@ -6,3 +6,4 @@ package com.livvy.mvpdemo.View.Interface;
 public interface ILogin {
     void getUserInfo(String userName, String password);
 }
+                                                  

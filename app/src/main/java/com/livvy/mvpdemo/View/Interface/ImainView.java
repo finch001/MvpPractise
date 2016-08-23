@@ -6,3 +6,4 @@ package com.livvy.mvpdemo.View.Interface;
 public interface ImainView {
     void getString(String showContent);
 }
+                                                  

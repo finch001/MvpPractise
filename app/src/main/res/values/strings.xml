@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MvpDemo</string>
+    <string name="title_hint">Title_Hint</string>
+    <string name="description_hint">Description_Hint</string>
+    <string name="edit_task">editTask</string>
+    <string name="add_task">addTask</string>
+    <string name="task_error">TaskError</string>
 </resources>

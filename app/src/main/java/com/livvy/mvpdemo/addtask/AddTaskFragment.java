@@ -89,7 +89,8 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View
     @Override
     public void showEmptyTaskError()
     {
-        Snackbar.make(titleTv, getString(R.string.task_error), Snackbar.LENGTH_LONG).show();
+        // Snackbar.make(titleTv, getString(R.string.task_error), Snackbar.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getString(R.string.task_error), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -113,7 +114,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View
     @Override
     public boolean isActive()
     {
-        return false;
+        return isAdded();
     }
 
     @Override

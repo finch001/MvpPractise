@@ -1,5 +1,7 @@
 package com.livvy.mvpdemo.data;
 
+import android.support.annotation.Nullable;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -11,6 +13,7 @@ public class Task
     public String mId;
     public String title;
     public String description;
+    public boolean isCompleted;
 
     public Task(String title, String description)
     {
@@ -37,6 +40,24 @@ public class Task
         }
         Task task = (Task)o;
         return Objects.equals(title, task.title) && Objects.equals(description, task.description);
+    }
+
+    @Nullable
+    public String getTitleForList()
+    {
+        if (title != null && !title.equals(""))
+        {
+            return title;
+        }
+        else
+        {
+            return description;
+        }
+    }
+
+    public boolean isCompleted()
+    {
+        return isCompleted;
     }
 
     @Override

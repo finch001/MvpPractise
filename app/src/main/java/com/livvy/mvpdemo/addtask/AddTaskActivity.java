@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.livvy.mvpdemo.R;
 import com.livvy.mvpdemo.Utils.ActivityUtils;
-import com.livvy.mvpdemo.data.TaskDataRepository;
+import com.livvy.mvpdemo.data.TasksRepository;
 import com.livvy.mvpdemo.data.local.TasksLocalDataSource;
 
 import butterknife.BindString;
@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
  */
 public class AddTaskActivity extends AppCompatActivity
 {
+    public static final int REQUEST_ADD_TASK = 1;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindString(R.string.edit_task)
@@ -62,7 +63,7 @@ public class AddTaskActivity extends AppCompatActivity
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), addEditTaskFragment, R.id.contentFrame);
         }
         // Create the presenter
-        new AddTaskPresenter(addEditTaskFragment, taskId, TaskDataRepository.getInstance(TasksLocalDataSource.getInstance(this)));
+        new AddTaskPresenter(addEditTaskFragment, taskId, TasksRepository.getInstance(TasksLocalDataSource.getInstance(this)));
     }
 
     private void initToolBar()

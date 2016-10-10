@@ -11,10 +11,10 @@ import java.util.Map;
 /**
  * Created by Finch on 2016/10/9 0009.
  */
-public class TaskDataRepository implements TasksDataSource
+public class TasksRepository implements TasksDataSource
 {
 
-    private static TaskDataRepository INSTANCE = null;
+    private static TasksRepository INSTANCE = null;
 
     //private final TasksDataSource mTasksRemoteDataSource;
 
@@ -25,7 +25,7 @@ public class TaskDataRepository implements TasksDataSource
     boolean mCacheIsDirty = false;
 
     // Prevent direct instantiation.
-    private TaskDataRepository(
+    private TasksRepository(
 
             @NonNull
             TasksDataSource tasksLocalDataSource)
@@ -34,11 +34,11 @@ public class TaskDataRepository implements TasksDataSource
         mTasksLocalDataSource = tasksLocalDataSource;
     }
 
-    public static TaskDataRepository getInstance(TasksDataSource tasksLocalDataSource)
+    public static TasksRepository getInstance(TasksDataSource tasksLocalDataSource)
     {
         if (INSTANCE == null)
         {
-            INSTANCE = new TaskDataRepository(tasksLocalDataSource);
+            INSTANCE = new TasksRepository(tasksLocalDataSource);
         }
         return INSTANCE;
     }

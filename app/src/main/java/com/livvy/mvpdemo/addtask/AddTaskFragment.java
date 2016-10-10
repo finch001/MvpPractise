@@ -9,8 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.livvy.mvpdemo.R;
+import com.livvy.mvpdemo.data.Task;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +57,17 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View
                 presenter.saveTask(titleTv.getText().toString(), descriptionTv.getText().toString());
             }
         });
+
+        FloatingActionButton fab1 = (FloatingActionButton)getActivity().findViewById(R.id.fab_get_task);
+        fab1.setImageResource(R.drawable.ic_done);
+        fab1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                presenter.getAllTask();
+            }
+        });
     }
 
     @Override
@@ -80,7 +95,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View
     @Override
     public void showTasksList(String title, String description)
     {
-        Snackbar.make(titleTv, title + " " + description, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(titleTv, "Save successful " + title + " " + description, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -107,4 +122,19 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View
         this.presenter = presenter;
     }
 
+    @Override
+    public void showTasksLists(List<Task> tasks)
+    {
+        if (tasks == null || tasks.isEmpty())
+        {
+            Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        StringBuffer sb = new StringBuffer();
+        for (Task item : tasks)
+        {
+            sb.append(tasks.toString());
+        }
+        Toast.makeText(getActivity(), sb.toString(), Toast.LENGTH_SHORT).show();
+    }
 }

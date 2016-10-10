@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.livvy.mvpdemo.R;
 import com.livvy.mvpdemo.Utils.ActivityUtils;
+import com.livvy.mvpdemo.data.TaskDataRepository;
+import com.livvy.mvpdemo.data.local.TasksLocalDataSource;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -36,8 +38,6 @@ public class AddTaskActivity extends AppCompatActivity
         ButterKnife.bind(this);
         initToolBar();
         initFragment();
-
-
     }
 
     private void initFragment()
@@ -62,7 +62,7 @@ public class AddTaskActivity extends AppCompatActivity
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), addEditTaskFragment, R.id.contentFrame);
         }
         // Create the presenter
-        new AddTaskPresenter(addEditTaskFragment, taskId);
+        new AddTaskPresenter(addEditTaskFragment, taskId, TaskDataRepository.getInstance(TasksLocalDataSource.getInstance(this)));
     }
 
     private void initToolBar()

@@ -1,17 +1,20 @@
 package com.livvy.mvpdemo.data;
 
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Created by Finch on 2016/10/8 0008.
  */
 public class Task
 {
+    public String mId;
     public String title;
     public String description;
 
     public Task(String title, String description)
     {
+        mId = UUID.randomUUID().toString();
         this.title = title;
         this.description = description;
     }
